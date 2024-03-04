@@ -1,0 +1,294 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Times New Roman;}{\f1\fnil\fcharset0 Arial;}{\f2\fnil\fcharset0 Calibri;}{\f3\fnil\fcharset2 Symbol;}}
+{\*\generator Riched20 10.0.22621}\viewkind4\uc1 
+\pard\sa200\sl480\slmult1\f0\fs24\lang9 Ethan Mayberry\par
+CS-300-R3287\par
+February 22, 2024\par
+\par
+
+\pard\sa200\sl480\slmult1\qc Project 1: \par
+Pseudocode:\par
+
+\pard\sa160\sl480\slmult1\b // Vector // \par
+\par
+
+\pard\sa160\sl480\slmult1\qc Pseudocode for loading Data:\b0\par
+
+\pard\sa160\sl480\slmult1\line Procedure ReadFile(filePath):\par
+    Open file at filePath\par
+    If file is not found:\par
+        Print "File not found."\par
+        Exit program\par
+    End If\par
+    For each line in file:\par
+        If LineIsValid(line):\par
+            ParseLine(line)\par
+        Else:\par
+            Print " Invalid line format."\par
+        End If\par
+    Close file\par
+End Procedure\par
+Function LineIsValid(line):\par
+    // Check line for two parameter minimum\par
+    tokens = Split(line, ',')\par
+    If Length(tokens) >= 2:\par
+        Return True\par
+    Else:\par
+        Return False\par
+    End If\par
+End Function\par
+Procedure ParseLine(line):\par
+    Pull course information from the given line\par
+    tokens = Split(line, ',')\par
+    \par
+    cNumber = tokens[0]\par
+    cTitle = tokens[1]\par
+    prereq = tokens[2:]  \par
+// Remaining tokens are labeled as prereq\par
+    // Validate all listed prerequisites\par
+    For each prerequisite in prerequisites:\par
+        If not CourseExists(prereq):\par
+            Print " Prerequisite not found for course ", cNumber\par
+            Exit program\par
+        End If\par
+    // Create course object. Store course object in vector data structure\par
+    cObject = CreateCourseObject(cNumber, cTitle, prereq)\par
+    VectorAppend(cVector, cObject)\par
+End Procedure\par
+Function CourseExists(cNumber):\par
+    // Check if course number correlates with any existing courses in the vector\par
+    For each course in cVector:\par
+        If course.cNumber = cNumber:\par
+            Return True\par
+        End If\par
+    Return False\par
+End Function \par
+\par
+
+\pard\sa160\sl480\slmult1\qc\b Pseudocode for creating course objects and storing in vector:\b0\par
+
+\pard\sa160\sl480\slmult1\b\par
+\b0 Procedure CreateCourseObject(cNumber, cTitle, prereq):\par
+    // Create a new course object\par
+    newCourse = new CObject()\par
+    // Use provided data to create instance variables\par
+    newCourse.cNumber = cNumber\par
+    newCourse.cTitle = cTitle\par
+    newCourse.prereq = prereq\par
+    Return newCourse\par
+End Procedure\par
+Procedure VectorAppend(vector, element):\par
+    // Add element to end of our Vector\par
+    vector[length(vector)] = element\par
+End Procedure\par
+\par
+
+\pard\sa160\sl480\slmult1\qc\b Pseudocode for Searching and Printing:\b0\par
+
+\pard\sa160\sl480\slmult1\par
+Procedure PrintCourseInformation(cNumber):\par
+    For each course in cVector:\par
+        If course.cNumber = cNumber:\par
+            Print "The Course Number is: ", course.cNumber\par
+            Print "the Course Title is: ", course.cTitle\par
+            Print "The prerequisites are: ", course.prereq\par
+            Return\par
+        End If\par
+    \par
+     Print "Course not found.\rdblquote\par
+End Procedure\par
+\par
+\b // Tree //\par
+\par
+
+\pard\sa160\sl480\slmult1\qc Pseudocode for loading Data:\b0\par
+\par
+
+\pard\sa160\sl480\slmult1 Procedure LoadDataIntoTree(file_path):\par
+Try:\par
+Open file at file_path\par
+If file does not exist:\par
+Display "File not found"\par
+Exit program\par
+Initialize an empty Tree data structure\par
+For each line in file:\par
+If line equals empty:\par
+Continue to next line\par
+Split line into course_number, course_title, and prerequisites\par
+If Length of prerequisites is less than 2:\par
+Display "Insufficient prerequisites on line"\par
+Continue to next line\par
+For each prerequisite in prerequisites:\par
+If prerequisite not in Tree:\par
+Display "Prerequisite not found on line"\par
+Continue to next line\par
+Create a new Course object with course_number, course_title, and prerequisites\par
+Add Course object to Tree data structure\par
+Close file\par
+Catch Exception as e:\par
+Display "Unable to open or read file"\par
+Exit the program\par
+\par
+
+\pard\sa160\sl480\slmult1\qc\b Pseudocode for creating course objects and storing in tree\b0\par
+
+\pard\sa160\sl480\slmult1\par
+Procedure CreateCObjectsAndStore(tree):\par
+For each line in file:\par
+Split the line into course_number, course_title, and prerequisites\par
+Create new Course object with course_number, course_title, and prerequisites\par
+Add Course object to tree\par
+Display "Data loaded into tree successfully"\par
+\par
+
+\pard\sa160\sl480\slmult1\qc\b Pseudocode for Searching and Printing:\b0\par
+
+\pard\sa160\sl480\slmult1\par
+Procedure PrintCInfoAndPrerequisites(tree):\par
+Initialize empty queue\par
+Queue the root of the tree\par
+While queue does not equal empty:\par
+Remove node from queue\par
+Print that node's course information\par
+For each branch of the node:\par
+Queue the branch\par
+\par
+\b // Hash Table //\par
+\par
+
+\pard\sa160\sl480\slmult1\qc Pseudocode for loading Data:\par
+
+\pard\sa160\sl480\slmult1\par
+\b0 Use fstream to open file\par
+Make the call to open the file\par
+if \par
+\tab the return value is -1, the file is not found\par
+else if \par
+\tab file is found\par
+while\par
+\tab it is not the End of File\par
+\tab read each line\par
+if \par
+\tab there are less than two values in a line, return ERROR\par
+else\par
+\tab read parameters\par
+if\par
+\tab there is a third or more parameters\par
+if\par
+\tab third or more parameter is in first parameter elsewhere continue\par
+else \par
+\tab return Error\par
+Close file\par
+\par
+
+\pard\sa160\sl480\slmult1\qc\b Pseudocode for creating course objects in hash table:\b0\par
+
+\pard\sa160\sl480\slmult1\par
+initialize Course Vector vector<Node> nodes\par
+create HashTable Class\par
+create Insert method to insert the items into  the HashTable\par
+loop through the file\par
+while \par
+\tab not EOF\par
+for each of the lines in file\par
+for first and second value\par
+\tab create temp item to hold given values\par
+if a third value exists\par
+\tab add it to the current value\par
+call on insert method for each value\par
+\par
+
+\pard\sa160\sl480\slmult1\qc\b Pseudocode for Searching and Printing:\b0\par
+
+\pard\sa160\sl480\slmult1\par
+ssk user for Input\par
+assign the input to value key\par
+If \par
+\tab key is found\par
+\tab print out the selected course information\par
+for each prerequisite of the course\par
+\tab print the course information for the prerequisites \par
+\par
+\par
+\b // Menu Pseudocode//\par
+\par
+\par
+\b0 int userOption;\par
+Output << \ldblquote Enter selection: \ldblquote << endl;\par
+Output << \ldblquote 1- Load the data.\rdblquote  << endl;\par
+Output << \ldblquote 2- Display listed Courses.\rdblquote  << endl;\par
+Output << \ldblquote 3- Display selected Course.\rdblquote  << endl;\par
+Output << \ldblquote 4- Exit.\rdblquote  << endl;\par
+While (userOption != 4) \{\par
+Switch (choice) \{\par
+Case 1: lodData;\par
+Break;\par
+Case 2: printCList;\par
+Break;\par
+Case 3: printCourse;\par
+Break;\par
+Case 4: \par
+Break;\par
+Default: output << \ldblquote Invalid choice made. Please enter a valid choice\rdblquote  << endl;\par
+\par
+\b // Pseudocode for alphanumeric order //\b0\par
+\par
+\b // Vector //\b0\par
+\par
+function printCourseList(Vector courses):sortedVector = sort(vector) \par
+for course in sorted Vector:\par
+\tab display course\par
+\par
+\b // Hash table //\par
+\b0\par
+:function printCourseListHashTable():\par
+courseList = hashTable.values()\par
+sortedCourseList = sort(courseList) \par
+for course in sortedCourseList:\par
+display course\par
+\par
+\b //Tree//\b0\par
+\par
+functon printCourseListTree():\par
+sortedCourses = tree.inOrderTraversal()\par
+for course in sortedCourses:\par
+display course\par
+\par
+\par
+\par
+
+\pard\sa160\sl240\slmult1\qc\b // Advantages and disadvantages of both //\f1\par
+\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa160\sl240\slmult1\f0 Vector - \b0\f1\par
+
+\pard\sa160\sl240\slmult1\b\f0 Advantages: \b0 Sorting is both allowed and encouraged, items sorted by when they are placed, fast access to items by searching index location, next to no memory is left not used.\b\par
+Disadvantages: \b0 Adding/removing aren't as efficient as other structures due to the strictly linear searching\f1\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa160\sl240\slmult1\b\f0 Tree - \b0\f1\par
+
+\pard\sa160\sl240\slmult1\b\f0 Advantages: \b0 simple insertion of new items, as well as the removal of existing items.Superior searching efficiency. best and easiest sorter of data.\b\par
+
+\pard\sa160\sl240\slmult1 Disadvantages: \b0 Higher RAM usage, among other resources to run programs.\f1\par
+
+\pard{\pntext\f3\'B7\tab}{\*\pn\pnlvlblt\pnf3\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa160\sl240\slmult1\b\f0 Hash Table -\b0\f1\par
+
+\pard\sa160\sl240\slmult1\b\f0 Advantages: \b0 Faster access to elements. Superior handler of large amounts of data. Easy access to items to make adding/removing easier.\b\par
+
+\pard\sa160\sl240\slmult1 Disadvantages: \b0 items not stored in specific order. High memory usage as well.\f1\par
+\par
+\b\f0\par
+\par
+
+\pard\sa160\sl240\slmult1\qc / / Recommendation for structure to be used in code //\par
+\par
+
+\pard\sa160\sl240\slmult1\b0 With what it is we are searching for in this given project, I am choosing to go with a Binary Search Tree. This will allow an in-order travel while searching for courses and prerequisites. Based on my above, removing/adding and searching for items is easier to do with small amounts of data like a course list. This is why I believe the Binary Search Tree will be best for this assignment.\f1\par
+
+\pard\sa160\sl240\slmult1\par
+\f0\fs20\par
+\par
+\par
+
+\pard\sa200\sl276\slmult1\b\f2\fs22\par
+}
+ 
